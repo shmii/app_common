@@ -5,3 +5,8 @@
 
   roles:
     - role: app-common
+
+  vars:
+    application_name: "My TEST Application"
+    application_id: TEST
+    application_account_login: test
