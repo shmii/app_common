@@ -1,0 +1,15 @@
+---
+- name: Redhat Familly - Create Application directory
+  import_tasks: application-directory.yml
+
+- name: Redhat Familly - Install EPEL repository
+  import_tasks: rhel-epel.yml
+  when:
+  - ansible_distribution != 'Fedora'
+
+- name: Redhat Familly - Enable PowerTools repository
+  import_tasks: rhel-enablePowerTools.yml
+  when: (ansible_facts['distribution_major_version'] >= "8")
+
+- name: Redhat Familly - Install DSI tools
+  import_tasks: rhel-tools.yml  

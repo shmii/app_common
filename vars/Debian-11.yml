@@ -1,0 +1,11 @@
+---
+__os_tools_packages:
+  - htop
+  - vim
+  - sshpass
+  - curl
+  - tmux
+  - screen
+  - python3-pexpect
+  - telnet
+  - cifs-utils

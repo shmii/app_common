@@ -1,0 +1,14 @@
+---
+root_group: root
+__powertools_reponame : "powertools"
+__os_tools_packages:
+  - redhat-lsb-core
+  - bash-completion
+  - htop
+  - vim
+  - curl
+  - tmux
+  - screen
+  - python3-pexpect
+  - telnet
+  - cifs-utils

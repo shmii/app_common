@@ -1,0 +1,36 @@
+---
+- name: "Applications Common - Create Application Directory - root"
+  file:
+    path: "/app/{{ application_id }}"
+    state: directory
+    recurse: no
+    follow: no
+    owner: "{{ application_account_login }}"
+    group: "{{ application_account_login }}"
+
+- name: "Applications Common - Create Application Directory - application"
+  file:
+    path: "/app/{{ application_id }}/application"
+    state: directory
+    recurse: no
+    follow: no
+    owner: "{{ application_account_login }}"
+    group: "{{ application_account_login }}"
+
+- name: "Applications Common - Create Application Directory - log"
+  file:
+    path: "/app/{{ application_id }}/log"
+    state: directory
+    recurse: no
+    follow: no
+    owner: "{{ application_account_login }}"
+    group: "{{ application_account_login }}"
+
+- name: "Applications Common - Create Application Directory - data"
+  file:
+    path: "/app/{{ application_id }}/data"
+    state: directory
+    recurse: no
+    follow: no
+    owner: "{{ application_account_login }}"
+    group: "{{ application_account_login }}"

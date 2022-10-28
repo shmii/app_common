@@ -1,0 +1,21 @@
+---
+- name: "Applications Common - Ubuntu Familly - 16 - Create Application User Account"
+  import_tasks: app-user-create.yml
+
+- name: "Applications Common - Ubuntu Familly - 16 - Create Application Directorys"
+  import_tasks: app-directory.yml
+
+- name: "Applications Common - Ubuntu Familly - 16 - Create Application LVM"
+  import_tasks: app-lvm-create.yml
+  when: ansible_virtualization_type != "lxc"
+
+- name: "Applications Common - Ubuntu Familly - 16 - Create Application XFS Filesystems"
+  import_tasks: app-fs-create.yml
+  when: ansible_virtualization_type != "lxc"
+
+- name: "Applications Common - Ubuntu Familly - 16 - Mount Application XFS Filesystems (And add to fstab)"
+  import_tasks: app-fs-mount.yml
+  when: ansible_virtualization_type != "lxc"
+
+- name: "Applications Common - Ubuntu Familly - 16 - Update Application Directorys"
+  import_tasks: app-directory.yml

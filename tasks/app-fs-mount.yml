@@ -1,0 +1,42 @@
+---
+- name: "Applications Common - Get Application XFS Filesystems (lv_app) UUID"
+  shell: "blkid /dev/mapper/vg_{{ application_account_login }}-lv_app |awk '{print $2}'"
+  args:
+    chdir: "/app"
+  register: lv_app_guid_output
+
+- name: "Applications Common - Mount Application XFS Filesystems (lv_app) on /app/{{ application_id }}/application"
+  mount:
+    path: "/app/{{ application_id }}/application"
+    src: "{{ lv_app_guid_output.stdout }}"
+    fstype: xfs
+    opts: defaults
+    state: mounted
+
+- name: "Applications Common - Get Application XFS Filesystems (lv_log) UUID"
+  shell: "blkid /dev/mapper/vg_{{ application_account_login }}-lv_log |awk '{print $2}'"
+  args:
+    chdir: "/app"
+  register: lv_log_guid_output
+
+- name: "Applications Common - Mount Application XFS Filesystems (lv_log) on /app/{{ application_id }}/log"
+  mount:
+    path: "/app/{{ application_id }}/log"
+    src: "{{ lv_log_guid_output.stdout }}"
+    fstype: xfs
+    opts: defaults
+    state: mounted
+
+- name: "Applications Common - Get Application XFS Filesystems (lv_data) UUID"
+  shell: "blkid /dev/mapper/vg_{{ application_account_login }}-lv_data |awk '{print $2}'"
+  args:
+    chdir: "/app"
+  register: lv_data_guid_output
+
+- name: "Applications Common - Mount Application XFS Filesystems (lv_data) on /app/{{ application_id }}/data"
+  mount:
+    path: "/app/{{ application_id }}/data"
+    src: "{{ lv_data_guid_output.stdout }}"
+    fstype: xfs
+    opts: defaults
+    state: mounted

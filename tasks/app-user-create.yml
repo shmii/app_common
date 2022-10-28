@@ -1,0 +1,8 @@
+---
+- name: "Applications Common - Create Application User Account"
+  user:
+    name: "{{ application_account_login }}"
+    shell: "{{ application_account_shell }}"
+    comment: "{{ application_id }} - service account ({{ application_account_login }})"
+    home: "/app/{{ application_id }}/application"
+    append: yes
