@@ -5,3 +5,79 @@
 
   roles:
     - role: app-common
+
+  vars:
+    app_common_role_debug: true
+
+    application:
+      - name: "My Test Application"
+        tag: APTEST
+        id: aptest
+        comment: "My TEST Application"
+
+    application_groups:
+      - name: groupe_one
+      - name: groupe_two
+
+    application_users:
+      - login: "{{ application[0].id }}"
+        comment: "{{ application[0].comment }}"
+        home_directory: "/app/{{ application[0].tag }}/application"
+        base_directory: "/app/{{ application[0].tag }}"
+        shell: "/usr/sbin/nologin"
+        group: "{{ application[0].id }}"
+        groups: 
+          - groupe_one
+          - groupe_two 
+
+
+    application_lvms_create: true 
+    application_vgs:
+      - name : "vg_app"
+        tag: "APTEST"
+        lvs :
+        - name: "lv_app"
+          size: '10g'
+          fstype: 'xfs'
+          owner: "{{ application[0].id }}"
+          group: "{{ application[0].id }}"
+          mode: 755
+          mount_point: /app/{{ application[0].tag }}/application
+        - name: "lv_log"
+          size: '10g'
+          fstype: 'xfs'
+          owner: "{{ application[0].id }}"
+          group: "{{ application[0].id }}"
+          mode: 755
+          mount_point: /app/{{ application[0].tag }}/log
+        - name: "lv_data"
+          size: '10g'
+          fstype: 'xfs'
+          owner: "{{ application[0].id }}"
+          group: "{{ application[0].id }}"
+          mode: 755
+          mount_point: /app/{{ application[0].tag }}/data
+
+
+    application_directories:
+      - path: "/app/{{ application[0].tag }}/application"
+        owner: "{{ application[0].id }}"
+        group: "{{ application[0].id }}"
+        mode: 755
+      - path: "/app/{{ application[0].tag }}/log"
+        owner: "{{ application[0].id }}"
+        group: "{{ application[0].id }}"
+        mode: 755
+      - path: "/app/{{ application[0].tag }}/data"
+        owner: "{{ application[0].id }}"
+        group: "{{ application[0].id }}"
+        mode: 755
+    
+
+    disks:
+      - path: '/dev/disk/azure/scsi1/lun1'
+        tag: APTEST
+      - path: '/dev/sdc'
+        tag: APTEST
+      - path: '/dev/sde'
+        tag: AFFFF
