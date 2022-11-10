@@ -34,7 +34,7 @@
     - create_lvs
 
 - name: "Applications Common - Create Application LVM - Create FS"
-  filesystem:
+  ansible.builtin.filesystem:
     fstype: {{ lv.fstype }}
     dev: /dev/mapper/{{ vg.name }}-{{ lv.name }}
     resizefs: yes

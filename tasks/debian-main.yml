@@ -11,15 +11,15 @@
     - role_debug
 
 - name: "Applications Common - Debian Familly - Create Application User Account"
-  import_tasks: app-create-user.yml
+  ansible.builtin.import_tasks: app-create-user.yml
   tags:
     - create_user
 
 - name: "Applications Common - Debian Familly - Create Application Directories"
-  import_tasks: app-create-directories.yml
+  ansible.builtin.import_tasks: app-create-directories.yml
 
 - name: "Applications Common - Debian Familly - Create Application VGs"
-  import_tasks: app-create-vgs.yml
+  ansible.builtin.import_tasks: app-create-vgs.yml
   when: 
     - ansible_virtualization_type != "lxc"
     - ansible_virtualization_type != "docker"
