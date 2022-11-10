@@ -1,0 +1,37 @@
+---
+- name: "Applications Common - Print User Account vars"
+  ansible.builtin.debug:
+    msg: 
+      - login: "{{ user.login }}"
+      - comment: "{{ user.comment }}"
+      - home_directory: "{{ user.home_directory }}"
+      - shell: "{{ user.shell }}"
+      - group: "{{ user.group }}"
+      - groups: "{{ user.groups }}"
+  loop: "{{ application_users }}"
+  loop_control:
+    loop_var: user
+  when: app_common_role_debug == true 
+  tags:
+    - role_debug
+
+- name: "Applications Common - Create Application Groups Account"
+  ansible.builtin.group:
+    name: "{{ group.name }}"
+    state: present
+  loop: "{{ application_groups }}"
+  loop_control:
+    loop_var: group
+
+
+- name: "Applications Common - Create Application User Account"
+  ansible.builtin.user:
+    name: "{{ user.login }}"
+    shell: "{{ user.shell }}"
+    comment: "{{ user.comment }})"
+    home: "{{ user.home_directory }}"
+    groups: "{{ user.groups }}"
+    append: yes
+  loop: "{{ application_users }}"
+  loop_control:
+    loop_var: user

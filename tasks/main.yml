@@ -1,34 +1,22 @@
 ---
-# Variable OS Family specific.
-- name: Include OS-specific variables.
-  include_vars: "{{ ansible_os_family }}.yml"
+# Loading OS correct vars
+- name: Loading OS correct vars
+  import_tasks: load_vars.yml
+  tags:
+    - load_vars
 
-# Variable OS version specific.
-- name: Include OS-specific variables (Debian).
-  include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_version.split('.')[0] }}.yml"
-  when: ansible_os_family == 'Debian'
+- name: "Print role Vars"
+  ansible.builtin.debug:
+    msg: 
+      - "app_common_role_debug : {{ app_common_role_debug }}"
+      - "application : {{ application }}"
+      - "application_users : {{ application_users }}"
+      - "application_lvms_create : {{ application_lvms_create }}"
+      - "application_vgs : {{ application_vgs }}"
 
-- name: Include OS-specific variables (RedHat).
-  include_vars: "{{ ansible_os_family }}-{{ ansible_distribution_version.split('.')[0] }}.yml"
-  when:
-  - ansible_os_family == 'RedHat'
-  - ansible_distribution != 'Fedora'
-  - ansible_distribution != 'Amazon'
-
-- name: Include OS-specific variables (Rocky).
-  include_vars: "{{ ansible_os_family }}-{{ ansible_distribution_version.split('.')[0] }}.yml"
-  when:
-  - ansible_os_family == 'Rocky'
-  - ansible_distribution != 'Fedora'
-  - ansible_distribution != 'Amazon'
-
-- name: Include OS-specific variables (Amazon).
-  include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
-  when: ansible_distribution == 'Amazon'
-
-- name: Include OS-specific variables (Fedora).
-  include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_version.split('.')[0] }}.yml"
-  when: ansible_distribution == 'Fedora'
+  when: app_common_role_debug == true
+  tags:
+    - role_debug
 
 # Run tasks.
 - name: Deploy common role on RHEL Familly

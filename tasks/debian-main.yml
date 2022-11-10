@@ -1,7 +1,42 @@
 ---
-- name: Ubuntu Familly - Create Covage Application directory
-  import_tasks: application-directory.yml
+- name: Applications Common - Debian Familly - Print application Vars
+  ansible.builtin.debug:
+    msg: 
+      - "Application Name : {{ application[0].name }}"
+      - "Application Tag : {{ application[0].tag }}"
+      - "Application id : {{ application[0].id }}"
+      - "Application comment : {{ application[0].comment }}"
+  when: app_common_role_debug == true
+  tags:
+    - role_debug
 
-- name: Ubuntu Familly - Install DSI tools
-  import_tasks: debian-tools.yml
-  
+- name: "Applications Common - Debian Familly - Create Application User Account"
+  import_tasks: app-create-user.yml
+  tags:
+    - create_user
+
+- name: "Applications Common - Debian Familly - Create Application Directories"
+  import_tasks: app-create-directories.yml
+
+- name: "Applications Common - Debian Familly - Create Application VGs"
+  import_tasks: app-create-vgs.yml
+  when: 
+    # - ansible_virtualization_type != "lxc"
+    # - ansible_virtualization_type != "docker"
+    - application_lvms_create == true
+  tags:
+    - create_vgs
+
+# - name: "Applications Common - Debian Familly - Create Application XFS Filesystems"
+#   import_tasks: app-fs-create.yml
+#   when: 
+#     - ansible_virtualization_type != "lxc"
+#     - ansible_virtualization_type != "docker"
+#     - application_lvms_create != true
+
+# - name: "Applications Common - Debian Familly - Mount Application XFS Filesystems (And add to fstab)"
+#   import_tasks: app-fs-mount.yml
+#   when: 
+#     - ansible_virtualization_type != "lxc"
+#     - ansible_virtualization_type != "docker"
+#     - application_lvms_create != true

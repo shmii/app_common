@@ -1,0 +1,109 @@
+---
+- name: "Applications Common - Create Application LVM - Create new empty list of Physical Volumes (pvs)"
+  ansible.builtin.set_fact:
+    pvs: []
+  tags: 
+    - create_pv_list
+
+- name : "Applications Common - Create Application LVM - Fill list of Physical Volumes (pvs) for vg tag [{{ vg.tag }}]"
+  ansible.builtin.set_fact:
+    pvs: "{{ pvs + [disk.path] }}"
+  loop: "{{ disks }}"
+  loop_control:
+    loop_var: disk
+  when: vg.tag == disk.tag
+  tags:
+    - create_pv_list
+
+- name: "Applications Common - Create Application LVM - Print Physical Volulmes for vg tag [{{ vg.tag }}]"
+  ansible.builtin.debug:
+    msg:
+      - vg: "{{ vg.name }}"
+      - Path: "{{ pvs }}"
+  tags:
+    - create_pv_list
+
+# - name: "Applications Common - Create Application LVM - Create VG"
+#   ansible.builtin.lvg:
+#     vg: "{{ vg.name }}"
+#     pvs: "{{ pvs }}"
+#     tags:
+#     - create_vg
+
+- name: "Applications Common - Create Application LVM - Print Logical Volumes."
+  ansible.builtin.debug:
+    msg:
+      - vg: "{{ vg.name }}"
+      - lv: "{{ lv.name }}"
+      - size: "{{ lv.size }}"
+  loop: "{{ vg.lvs }}"
+  loop_control:
+    loop_var: lv
+  tags:
+    - create_lvs
+
+# - name: "Applications Common - Create Application LVM - Create Logical Volumes."
+#   ansible.builtin.lvol:
+#     vg: "{{ vg.name }}"
+#     lv: "{{ lv.name }}"
+#     size: "{{ lv.size }}"
+#   loop: "{{ vg.lvs }}"
+#   loop_control:
+#     loop_var: lv
+#   tags:
+#     - create_lvs
+
+
+- name: "Applications Common - Create Application LVM - Print FS"
+  ansible.builtin.debug:
+    msg:
+      - vg: "{{ vg.name }}"
+      - lv: "{{ lv.name }}"
+      - fstype: "{{ lv.fstype }}"
+      - dev: "/dev/mapper/{{ vg.name }}-{{ lv.name }}"
+      - resizefs: "yes"
+  loop: "{{ vg.lvs }}"
+  loop_control:
+    loop_var: lv
+  tags:
+    - create_lvs
+
+# - name: "Applications Common - Create Application LVM - Create FS"
+#   filesystem:
+#     fstype: {{ lv.fstype }}
+#     dev: /dev/mapper/{{ vg.name }}-{{ lv.name }}
+#     resizefs: yes
+#   loop: "{{ vg.lvs }}"
+#   loop_control:
+#     loop_var: lv
+#   tags:
+#     - create_lvs
+
+- name: "Applications Common - Create Application LVM - Create FS Directories"
+  ansible.builtin.file:
+    path: "{{ lv.mount_point }}"
+    state: directory
+    recurse: no
+    follow: no
+    owner: "{{ lv.owner }}"
+    group: "{{ lv.group }}"
+    mode: "{{ lv.mode }}"
+  loop: "{{ vg.lvs }}"
+  loop_control:
+    loop_var: lv
+  tags:
+    - create_lvs
+
+# - name: "Applications Common - Create Application LVM - Mount and add FS on fstab"
+#   ansible.posix.mount:
+#     path: "{{ lv.mount_point }}"
+#     src: "/dev/mapper/{{ vg.name }}-{{ lv.name }}"
+#     fstype: "{{ lv.fstype }}"
+#     opts: defaults
+#     state: present
+#     backup: yes
+#   loop: "{{ vg.lvs }}"
+#   loop_control:
+#     loop_var: lv
+#   tags:
+#     - create_lvs

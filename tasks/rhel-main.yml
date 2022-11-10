@@ -1,15 +1,46 @@
 ---
-- name: Redhat Familly - Create Application directory
-  import_tasks: application-directory.yml
+- name: Applications Common - Redhat Familly - Print application Vars
+  ansible.builtin.debug:
+    msg: 
+      - "Application Name : {{ application[0].name }}"
+      - "Application Tag : {{ application[0].tag }}"
+      - "Application id : {{ application[0].id }}"
+      - "Application comment : {{ application[0].comment }}"
+  when: app_common_role_debug == true
+  tags:
+    - role_debug
 
-- name: Redhat Familly - Install EPEL repository
-  import_tasks: rhel-epel.yml
-  when:
-  - ansible_distribution != 'Fedora'
+- name: "Applications Common - Redhat Familly - Create Application User Account"
+  import_tasks: app-create-user.yml
 
-- name: Redhat Familly - Enable PowerTools repository
-  import_tasks: rhel-enablePowerTools.yml
-  when: (ansible_facts['distribution_major_version'] >= "8")
+- name: "Applications Common - Redhat Familly - Create Application Directories"
+  import_tasks: app-create-directories.yml
+  tags:
+    - create_directories
 
-- name: Redhat Familly - Install DSI tools
-  import_tasks: rhel-tools.yml  
+- name: "Applications Common - Redhat Familly - Create Application VGs"
+  import_tasks: app-create-vgs.yml
+  when: 
+    - ansible_virtualization_type != "lxc"
+    - ansible_virtualization_type != "docker"
+    - application_lvms_create != true
+  tags:
+    - create_vgs
+
+# - name: "Applications Common - Redhat Familly - Create Application Filesystems"
+#   import_tasks: app-create-fs.yml
+#   when: 
+#     - ansible_virtualization_type != "lxc"
+#     - ansible_virtualization_type != "docker"
+#     - application_lvms_create != true
+#   tags:
+#     - create_fs
+
+# - name: "Applications Common - Redhat Familly - Mount Application XFS Filesystems (And add to fstab)"
+#   import_tasks: app-mount-fs.yml
+#   when: 
+#     - ansible_virtualization_type != "lxc"
+#     - ansible_virtualization_type != "docker"
+#     - application_lvms_create != true
+#   tags:
+#     - mount_fs
