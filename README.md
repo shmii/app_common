@@ -26,7 +26,7 @@ molecule <green>4.0.3</green> using python 3.10
 
 <br>
 
-> ### Requiered variables
+> ### Requiered Variables
 > <BR>
 >
 > ### Role Variables
@@ -67,7 +67,6 @@ molecule <green>4.0.3</green> using python 3.10
 > > <br>
 > >
 > >
-> >
 > > #### The `application_groups` dictionaries.
 > > ---
 > > This dictionary gathers all Application **Groups** variables.<br>
@@ -83,6 +82,7 @@ molecule <green>4.0.3</green> using python 3.10
 > > ##### `application_groups.name`  **This var is mendatory !**
 > > The groups name. <br>
 > > <br>
+> > 
 > > 
 > > #### The `application_users` dictionaries.
 > > ---
@@ -129,100 +129,106 @@ molecule <green>4.0.3</green> using python 3.10
 > >
 > >
 > > #### The `application_directories` Dictionary
+> > ---
 > > This dictionary gathers all Application **Directories** variables.<br>
 > > This dictionary should be declare on inventory `group_vars`.<br>
 > > **This dictionary is mendatory !** <br> 
 > > (*This dictionary vars should normaly be provided by the Configuration management database (CMDB)*)
 > > ```yaml
 > >    application_directories:
-> >      - path: "/app/{{ application[0].tag }}/application"
-> >        owner: "{{ application[0].id }}"
-> >        group: "{{ application[0].id }}"
+> >      - path: "/app/APTEST/application"
+> >        owner: "user_one"
+> >        group: "user_one"
 > >        mode: 755
-> >      - path: "/app/{{ application[0].tag }}/log"
-> >        owner: "{{ application[0].id }}"
-> >        group: "{{ application[0].id }}"
+> >      - path: "/app/APTEST/log"
+> >        owner: "user_one"
+> >        group: "user_one"
 > >        mode: 755
-> >      - path: "/app/{{ application[0].tag }}/data"
-> >        owner: "{{ application[0].id }}"
-> >        group: "{{ application[0].id }}"
+> >      - path: "/app/APTEST/data"
+> >        owner: "user_one"
+> >        group: "user_one"
 > >        mode: 755
 > > ```
-
-
-
-
-```yaml
-application_lvms_create: true 
-application_lvms:
-  - vg_name : "vg_app"
-    vg_lvs :
-    - lv_name: "lv_app"
-      lv_size: '10g'
-      fs: 'xfs'
-      mount_point: /app/{{ application_tag }}/app
-    - lv_name: "lv_log"
-      lv_size: '10g'
-      fs: 'xfs'
-      mount_point: /app/{{ application_tag }}/log
-    - lv_name: "lv_data"
-      lv_size: '10g'
-      fs: 'xfs'
-```
-
-
-
-
-
-> > Use `application_lvm_create` to chose if you wanted to create dedicate VGs and LVs for your application. This var is set to `false` by default. <br>
-> > Use below vars to configure LVM, and there FilesSysteme
-### LVM variables (os_app_lvm... )
-Use `application_lvm_create` to chose if you wanted to :
-- Create dedicate VGs and LVs for your application.
-- Create file systeme
-- Creat and add Mount Point on fstab.
-  
-This var is set to `false` by default. <br>
-If `application_lvm_create` set to true, mount point sould exist or set on `application_directories` list. <br>
-Use below variables to configure les LVM, and their Filesystem.
-```yaml
-application_lvm_create: true 
-application_lvm:
-  - vg_name : "vg_app"
-    vg_pvs :
-    - pv_name : "lun1"
-      pv_path: '/dev/disk/azure/scsi1/'
-    vg_lvs :
-    - lv_name: "lv_app"
-      lv_size: '10g'
-      fs: 'xfs'
-      mount_point: /app/{{ application_tag }}/app
-    - lv_name: "lv_log"
-      lv_size: '10g'
-      fs: 'xfs'
-      mount_point: /app/{{ application_tag }}/log
-    - lv_name: "lv_data"
-      lv_size: '10g'
-      fs: 'xfs'
-      mount_point: /app/{{ application_tag }}/data
-```
-
-
-```yaml
-servers:
-  - name : VM1
-    disks:
-      - name : hdd1
-        type : ssd
-        tag: APTEST
-        size: 10G
-        path: '/dev/disk/azure/scsi1/lun1'
-```
-
-
+> > ##### `application_directories.path`  **This var is mendatory !**
+> > The directory path. <br>
+> > 
+> > ##### `application_directories.owner` **This var is mendatory !**
+> > The directory owner. <br>
+> >
+> > ##### `application_directories.group` **This var is mendatory !**
+> > The directory group. <br>
+> >
+> > ##### `application_directories.mode` **This var is mendatory !**
+> > The directory mode. <br>
+> > <br>
+> >
+> > 
+> > ##### `application_lvms_create` **This var is mendatory !**
+> > This bolean variable used to enable or disable lvm creation.<br>
+> > This variable should be declare on inventory `group_vars`.<br>
+> > **This variable is mendatory !** <br> 
+> > **If this variable is set to `true` you must set the `application_vgs` Dictionary !**<br>
+> > <br>
+> > 
+> > 
+> > #### The `application_vgs` Dictionary
+> > ---
+> > This dictionary gathers all Application **Volume Groupe's (VGs)** variables.<br>
+> > This dictionary should be declare on inventory `group_vars`.<br>
+> > Volumes groups are created by picking disk's path on `disks` dictonaries if disks.tag equal to vgs.tag.
+> > **This dictionary is mendatory if `application_lvms_create` is set to `true` !** <br> 
+> > (*This dictionary vars should normaly be provided by the Configuration management database (CMDB)*)
+> > ```yaml
+> >    application_vgs:
+> >      - name : "vg_app"
+> >        tag: "APTEST"
+> >        lvs :
+> >        - name: "lv_app"
+> >          size: '10g'
+> >          fstype: 'xfs'
+> >          owner: "user_one"
+> >          group: "user_one"
+> >          mode: 755
+> >          mount_point: /app/APTEST/application
+> >        - name: "lv_log"
+> >          size: '10g'
+> >          fstype: 'xfs'
+> >          owner: "user_one"
+> >          group: "user_one"
+> >          mode: 755
+> >          mount_point: /app/APTEST/log
+> >        - name: "lv_data"
+> >          size: '10g'
+> >          fstype: 'xfs'
+> >          owner: "user_one"
+> >          group: "user_one"
+> >          mode: 755
+> >          mount_point: /app/APTEST/data
+> > ```
+> > <br>
+> > 
+> > 
+> > #### The `disks` Dictionary
+> > ---
+> > This dictionary gathers all host **Physical volumes** variables.<br>
+> > This dictionary should be declare on inventory `host_vars`.<br>
+> > **This dictionary is mendatory if `application_lvms_create` is set to `true` !** <br> 
+> > (*This dictionary vars should normaly be provided by the Configuration management database (CMDB)*) <br>
+> >
+> > ```yaml
+> >    disks:
+> >      - path: '/dev/disk/azure/scsi1/lun1'
+> >        tag: APTEST
+> >      - path: '/dev/sdc'
+> >        tag: APTEST
+> >      - path: '/dev/sde'
+> >        tag: AFFFF
+> > ```
+> > <br>
 ## Dependencies
 
-None.
+- ansible.builtin
+- ansible.posix
 
 ## Example Playbook
 
@@ -232,14 +238,13 @@ None.
         - { role: shmii.app-common }
 ```
 
-## Warning / known bugs
+## Warning and known bugs
 
-/!\ To validate this role with "molecule" from Ubuntu @ WSL/WSL2 it is necessary to create the folder  `/sys/fs/cgroup/systemd` on the host linux subsystem. 
+/!\ To validate this role with "molecule" from Ubuntu @ WSL/WSL2 it is necessary to create the folder  `/sys/fs/cgroup/systemd` on the host linux subsystem. This directory is necessary for some os (RHEL9, Rocky9, etc...) and not existing on local Ubuntu WSL sub Systeme !
 
-
-`sudo mkdir /sys/fs/cgroup/systemd`
-
-This directory is necessary for some os (RHEL9, Rocky9, etc...) and not existing on local Ubuntu WSL sub Systeme. 
+```console
+$ sudo mkdir /sys/fs/cgroup/systemd
+```
 
 ## Sources and Bibliography
 

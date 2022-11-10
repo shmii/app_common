@@ -20,13 +20,13 @@
 
 # Run tasks.
 - name: Deploy common role on RHEL Familly
-  import_tasks: rhel-main.yml
+  ansible.builtin.import_tasks: rhel-main.yml
   when: ( ansible_os_family == 'RedHat' or ansible_os_family == 'Rocky' )
   tags:
     - os-commons-rhel
 
 - name: Deploy common role on Debian Familly
-  import_tasks: debian-main.yml
+  ansible.builtin.import_tasks: debian-main.yml
   when: (ansible_facts['os_family'] == "Debian")
   tags:
     - os-common-debian

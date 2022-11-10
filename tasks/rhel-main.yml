@@ -11,7 +11,7 @@
     - role_debug
 
 - name: "Applications Common - Redhat Familly - Create Application User Account"
-  import_tasks: app-create-user.yml
+  ansible.builtin.import_tasks: app-create-user.yml
 
 - name: "Applications Common - Redhat Familly - Create Application Directories"
   import_tasks: app-create-directories.yml
@@ -19,28 +19,11 @@
     - create_directories
 
 - name: "Applications Common - Redhat Familly - Create Application VGs"
-  import_tasks: app-create-vgs.yml
+  ansible.builtin.import_tasks: app-create-vgs.yml
   when: 
     - ansible_virtualization_type != "lxc"
     - ansible_virtualization_type != "docker"
     - application_lvms_create != true
   tags:
     - create_vgs
-
-# - name: "Applications Common - Redhat Familly - Create Application Filesystems"
-#   import_tasks: app-create-fs.yml
-#   when: 
-#     - ansible_virtualization_type != "lxc"
-#     - ansible_virtualization_type != "docker"
-#     - application_lvms_create != true
-#   tags:
-#     - create_fs
-
-# - name: "Applications Common - Redhat Familly - Mount Application XFS Filesystems (And add to fstab)"
-#   import_tasks: app-mount-fs.yml
-#   when: 
-#     - ansible_virtualization_type != "lxc"
-#     - ansible_virtualization_type != "docker"
-#     - application_lvms_create != true
-#   tags:
-#     - mount_fs
+    
