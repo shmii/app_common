@@ -71,7 +71,7 @@ molecule <green>4.0.3</green> using python 3.10
 > > This bolean variable used to enable or disable groups creation.<br>
 > > This variable should be declare on inventory `group_vars`.<br>
 > > **This variable is mendatory !** <br> 
-> > **If this variable is set to `true` you must set the `application_vgs` Dictionary !**<br>
+> > **If this variable is set to `true` you must set the `application_groups` Dictionary !**<br>
 > > <br>
 > >
 > >
