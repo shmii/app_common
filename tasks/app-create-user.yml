@@ -30,7 +30,7 @@
   ansible.builtin.user:
     name: "{{ user.login }}"
     shell: "{{ user.shell }}"
-    comment: "{{ user.comment }})"
+    comment: "{{ user.comment }}"
     home: "{{ user.home_directory }}"
     groups: "{{ user.groups }}"
     append: yes
