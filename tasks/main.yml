@@ -12,9 +12,23 @@
       - "application : {{ application }}"
       - "application_users : {{ application_users }}"
       - "application_lvms_create : {{ application_lvms_create }}"
-      - "application_vgs : {{ application_vgs }}"
+  when: 
+    - app_common_role_debug == true
+    - application_lvms_create == false
+  tags:
+    - role_debug
 
-  when: app_common_role_debug == true
+- name: "Print role Vars"
+  ansible.builtin.debug:
+    msg: 
+      - "app_common_role_debug : {{ app_common_role_debug }}"
+      - "application : {{ application }}"
+      - "application_users : {{ application_users }}"
+      - "application_lvms_create : {{ application_lvms_create }}"
+      - "application_vgs : {{ application_vgs }}"
+  when: 
+    - app_common_role_debug == true
+    - application_lvms_create == true
   tags:
     - role_debug
 

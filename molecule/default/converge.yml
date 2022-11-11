@@ -15,6 +15,7 @@
         id: aptest
         comment: "My TEST Application"
 
+    application_groups_create: true
     application_groups:
       - name: groupe_one
       - name: groupe_two
