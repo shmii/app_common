@@ -67,11 +67,20 @@ molecule <green>4.0.3</green> using python 3.10
 > > <br>
 > >
 > >
-> > #### The `application_groups` dictionaries.
+> > ##### `application_groups_create` **This var is mendatory !**
+> > This bolean variable used to enable or disable groups creation.<br>
+> > This variable should be declare on inventory `group_vars`.<br>
+> > **This variable is mendatory !** <br> 
+> > **If this variable is set to `true` you must set the `application_vgs` Dictionary !**<br>
+> > <br>
+> >
+> >
+> > > #### The `application_groups` dictionaries.
 > > ---
+> > This dictionary is used, ang group created only if the `application_groups_create` var is set to true.
 > > This dictionary gathers all Application **Groups** variables.<br>
 > > This dictionary should be declare on inventory `group_vars`.<br>
-> > **This dictionary is mendatory !** <br> 
+> > **This dictionary is mendatory if `application_groups_create` is set to true !** <br> 
 > > (*This dictionary vars should normaly be provided by the Configuration management database (CMDB)*)
 > > ```yaml
 > >     application_groups:
