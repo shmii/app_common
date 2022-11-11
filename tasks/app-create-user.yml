@@ -22,7 +22,9 @@
   loop: "{{ application_groups }}"
   loop_control:
     loop_var: group
-
+  when: group in _names
+  vars:
+      _names: "{{ application_groups|map(attribute='name')|list }}"
 
 - name: "Applications Common - Create Application User Account"
   ansible.builtin.user:
