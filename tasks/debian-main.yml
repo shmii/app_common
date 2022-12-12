@@ -1,7 +1,7 @@
 ---
 - name: Applications Common - Debian Familly - Print application Vars
   ansible.builtin.debug:
-    msg: 
+    msg:
       - "Application Name : {{ application[0].name }}"
       - "Application Tag : {{ application[0].tag }}"
       - "Application id : {{ application[0].id }}"
@@ -20,10 +20,9 @@
 
 - name: "Applications Common - Debian Familly - Create Application VGs"
   ansible.builtin.import_tasks: app-create-vgs.yml
-  when: 
+  when:
     - ansible_virtualization_type != "lxc"
     - ansible_virtualization_type != "docker"
     - application_lvms_create == true
   tags:
     - create_vgs
-    

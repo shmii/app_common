@@ -1,6 +1,6 @@
 ---
 root_group: root
-__powertools_reponame : "powertools"
+__powertools_reponame: "powertools"
 __os_tools_packages:
   - redhat-lsb-core
   - bash-completion

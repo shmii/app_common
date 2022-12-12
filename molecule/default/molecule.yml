@@ -117,11 +117,11 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: true
     pre_build_image: true
-    
+
 provisioner:
   name: ansible
   options:
-    vvv: True
+    vvv: true
   playbooks:
     converge: ${MOLECULE_PLAYBOOK:-converge.yml}
 verifier:

@@ -2,10 +2,10 @@
 - name: "Applications Common - Create Application LVM - Create new empty list of Physical Volumes (pvs)"
   ansible.builtin.set_fact:
     pvs: []
-  tags: 
+  tags:
     - create_pv_list
 
-- name : "Applications Common - Create Application LVM - Fill list of Physical Volumes (pvs) for vg tag [{{ vg.tag }}]"
+- name: "Applications Common - Create Application LVM - Fill list of Physical Volumes (pvs) for vg tag [{{ vg.tag }}]"
   ansible.builtin.set_fact:
     pvs: "{{ pvs + [disk.path] }}"
   loop: "{{ disks }}"
@@ -20,7 +20,7 @@
     vg: "{{ vg.name }}"
     pvs: "{{ pvs }}"
     tags:
-    - create_vg
+      - create_vg
 
 - name: "Applications Common - Create Application LVM - Create Logical Volumes."
   ansible.builtin.lvol:
@@ -37,19 +37,19 @@
   ansible.builtin.filesystem:
     fstype: {{ lv.fstype }}
     dev: /dev/mapper/{{ vg.name }}-{{ lv.name }}
-    resizefs: yes
+    resizefs: true
   loop: "{{ vg.lvs }}"
   loop_control:
     loop_var: lv
   tags:
     - create_lvs
-    
+
 - name: "Applications Common - Create Application LVM - Create FS Directories"
   ansible.builtin.file:
     path: "{{ lv.mount_point }}"
     state: directory
-    recurse: no
-    follow: no
+    recurse: false
+    follow: false
     owner: "{{ lv.owner }}"
     group: "{{ lv.group }}"
     mode: "{{ lv.mode }}"
@@ -66,7 +66,7 @@
     fstype: "{{ lv.fstype }}"
     opts: defaults
     state: present
-    backup: yes
+    backup: true
   loop: "{{ vg.lvs }}"
   loop_control:
     loop_var: lv

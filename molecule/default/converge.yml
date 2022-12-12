@@ -27,37 +27,36 @@
         base_directory: "/app/{{ application[0].tag }}"
         shell: "/usr/sbin/nologin"
         group: "{{ application[0].id }}"
-        groups: 
+        groups:
           - groupe_one
-          - groupe_two 
+          - groupe_two
 
-
-    application_lvms_create: true 
+    application_lvms_create: true
     application_vgs:
-      - name : "vg_app"
+      - name: "vg_app"
         tag: "APTEST"
-        lvs :
-        - name: "lv_app"
-          size: '10g'
-          fstype: 'xfs'
-          owner: "{{ application[0].id }}"
-          group: "{{ application[0].id }}"
-          mode: 755
-          mount_point: /app/{{ application[0].tag }}/application
-        - name: "lv_log"
-          size: '10g'
-          fstype: 'xfs'
-          owner: "{{ application[0].id }}"
-          group: "{{ application[0].id }}"
-          mode: 755
-          mount_point: /app/{{ application[0].tag }}/log
-        - name: "lv_data"
-          size: '10g'
-          fstype: 'xfs'
-          owner: "{{ application[0].id }}"
-          group: "{{ application[0].id }}"
-          mode: 755
-          mount_point: /app/{{ application[0].tag }}/data
+        lvs:
+          - name: "lv_app"
+            size: '10g'
+            fstype: 'xfs'
+            owner: "{{ application[0].id }}"
+            group: "{{ application[0].id }}"
+            mode: 755
+            mount_point: /app/{{ application[0].tag }}/application
+          - name: "lv_log"
+            size: '10g'
+            fstype: 'xfs'
+            owner: "{{ application[0].id }}"
+            group: "{{ application[0].id }}"
+            mode: 755
+            mount_point: /app/{{ application[0].tag }}/log
+          - name: "lv_data"
+            size: '10g'
+            fstype: 'xfs'
+            owner: "{{ application[0].id }}"
+            group: "{{ application[0].id }}"
+            mode: 755
+            mount_point: /app/{{ application[0].tag }}/data
 
 
     application_directories:
@@ -73,7 +72,6 @@
         owner: "{{ application[0].id }}"
         group: "{{ application[0].id }}"
         mode: 755
-    
 
     disks:
       - path: '/dev/disk/azure/scsi1/lun1'

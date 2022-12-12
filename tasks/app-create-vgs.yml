@@ -1,5 +1,5 @@
 ---
-- name : Applications Common - Create VGs
+- name: "Applications Common - Create VGs"
   ansible.builtin.include_tasks: app-create-vg.yml
   loop: "{{ application_vgs }}"
   loop_control:

@@ -1,7 +1,7 @@
 ---
 - name: "Applications Common - Print User Account vars"
   ansible.builtin.debug:
-    msg: 
+    msg:
       - login: "{{ user.login }}"
       - comment: "{{ user.comment }}"
       - home_directory: "{{ user.home_directory }}"
@@ -11,7 +11,7 @@
   loop: "{{ application_users }}"
   loop_control:
     loop_var: user
-  when: app_common_role_debug == true 
+  when: app_common_role_debug == true
   tags:
     - role_debug
 
@@ -22,7 +22,7 @@
   loop: "{{ application_groups }}"
   loop_control:
     loop_var: group
-  when: 
+  when:
     - application_groups_create == true
 
 - name: "Applications Common - Create Application User Account"
@@ -32,7 +32,7 @@
     comment: "{{ user.comment }}"
     home: "{{ user.home_directory }}"
     groups: "{{ user.groups }}"
-    append: yes
+    append: true
   loop: "{{ application_users }}"
   loop_control:
     loop_var: user

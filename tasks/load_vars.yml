@@ -1,7 +1,7 @@
 ---
 - name: Print OS informations
   ansible.builtin.debug:
-    msg: 
+    msg:
       - "ansible_os_family : {{ ansible_os_family }}"
       - "ansible_distribution : {{ ansible_distribution }}"
       - "ansible_distribution_version : {{ ansible_distribution_version }}"
@@ -26,28 +26,28 @@
 - name: Include OS RHEL Family distributions version specific Variables.
   ansible.builtin.include_vars: "{{ ansible_os_family }}-{{ ansible_distribution_version.split('.')[0] }}.yml"
   when:
-  - ansible_os_family == 'RedHat'
-  - ansible_distribution != 'Fedora'
-  - ansible_distribution != 'Amazon'
-  - ansible_distribution != 'Rocky'
+    - ansible_os_family == 'RedHat'
+    - ansible_distribution != 'Fedora'
+    - ansible_distribution != 'Amazon'
+    - ansible_distribution != 'Rocky'
   tags:
     - os_rhel_distribution_variables
 
 - name: Include OS Rocky Distributions version specific Variables.
   ansible.builtin.include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_version.split('.')[0] }}.yml"
   when:
-  - ansible_distribution == 'Rocky'
+    - ansible_distribution == 'Rocky'
   tags:
-    -  os_rocky_distribution_variables
+    - os_rocky_distribution_variables
 
 - name: Include OS Amazon Distributions version specific Variables.
   ansible.builtin.include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
   when: ansible_distribution == 'Amazon'
   tags:
-    -  os_amazon_distribution_variables
+    - os_amazon_distribution_variables
 
 - name: Include OS Fedora Distributions version specific Variables.
   ansible.builtin.include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_version.split('.')[0] }}.yml"
   when: ansible_distribution == 'Fedora'
   tags:
-    -  os_fedora_distribution_variables
+    - os_fedora_distribution_variables
