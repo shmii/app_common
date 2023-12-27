@@ -1,0 +1,24 @@
+---
+- name: "Applications Common - Directory - Debug info : {{ directory.path }}"
+  ansible.builtin.debug:
+    msg:
+      - directory: "{{ directory }}"
+  when:
+    - app_common_role_debug
+  tags:
+    - app_common
+    - app_common_directory
+    - app_common_debug
+
+- name: "Applications Common - Directory : {{ directory.path }}"
+  ansible.builtin.file:
+    path: "{{ directory.path }}"
+    state: directory
+    recurse: false
+    follow: false
+    owner: "{{ directory.owner }}"
+    group: "{{ directory.group }}"
+    mode: "{{ directory.mode }}"
+  tags:
+    - app_common
+    - app_common_directory

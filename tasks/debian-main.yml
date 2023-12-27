@@ -2,27 +2,50 @@
 - name: Applications Common - Debian Familly - Print application Vars
   ansible.builtin.debug:
     msg:
-      - "Application Name : {{ application[0].name }}"
-      - "Application Tag : {{ application[0].tag }}"
-      - "Application id : {{ application[0].id }}"
-      - "Application comment : {{ application[0].comment }}"
-  when: app_common_role_debug == true
+      - "app_common.name : {{ app_common.name }}"
+      - "app_common.tag : {{ app_common.tag }}"
+      - "app_common.id : {{ app_common.id }}"
+      - "app_common.comment : {{ app_common.comment }}"
+  when: app_common_role_debug
   tags:
-    - role_debug
+    - app_common
+    - app_common_debian
+    - app_common_debug
 
-- name: "Applications Common - Debian Familly - Create Application User Account"
-  ansible.builtin.import_tasks: app-create-user.yml
+- name: "Applications Common - Debian Familly - Groups"
+  ansible.builtin.import_tasks: app-groups.yml
+  when:
+    - app_common.groups_create
   tags:
-    - create_user
+    - app_common
+    - app_common_debian
+    - app_common_groups
 
-- name: "Applications Common - Debian Familly - Create Application Directories"
-  ansible.builtin.import_tasks: app-create-directories.yml
+- name: "Applications Common - Debian Familly - Users"
+  ansible.builtin.import_tasks: app-users.yml
+  when:
+    - app_common.users_create
+  tags:
+    - app_common
+    - app_common_debian
+    - app_common_users
 
-- name: "Applications Common - Debian Familly - Create Application VGs"
-  ansible.builtin.import_tasks: app-create-vgs.yml
+- name: "Applications Common - Debian Familly - Directories"
+  ansible.builtin.import_tasks: app-directories.yml
+  when:
+    - app_common.directories_create
+  tags:
+    - app_common
+    - app_common_debian
+    - app_common_directories
+
+- name: "Applications Common - Debian Familly - LVMs"
+  ansible.builtin.import_tasks: app-lvms.yml
   when:
     - ansible_virtualization_type != "lxc"
     - ansible_virtualization_type != "docker"
-    - application_lvms_create == true
+    - app_common.lvms_create
   tags:
-    - create_vgs
+    - app_common
+    - app_common_debian
+    - app_common_lvms

@@ -1,28 +1,43 @@
 ---
-- name: Applications Common - Redhat Familly - Print application Vars
+- name: Applications Common - RedHat Familly - Print application Vars
   ansible.builtin.debug:
     msg:
-      - "Application Name : {{ application[0].name }}"
-      - "Application Tag : {{ application[0].tag }}"
-      - "Application id : {{ application[0].id }}"
-      - "Application comment : {{ application[0].comment }}"
-  when: app_common_role_debug == true
+      - "Application Name : {{ app_common.name }}"
+      - "Application Tag : {{ app_common.tag }}"
+      - "Application id : {{ app_common.id }}"
+      - "Application comment : {{ app_common.comment }}"
+  when: app_common_role_debug
   tags:
     - role_debug
 
-- name: "Applications Common - Redhat Familly - Create Application User Account"
-  ansible.builtin.import_tasks: app-create-user.yml
+- name: "Applications Common - RedHat Familly - Groups"
+  ansible.builtin.import_tasks: app-groups.yml
+  when:
+    - app_common.groups_create
+  tags:
+    - create_groups
 
-- name: "Applications Common - Redhat Familly - Create Application Directories"
-  import_tasks: app-create-directories.yml
+- name: "Applications Common - RedHat Familly - Users"
+  ansible.builtin.import_tasks: app-users.yml
+  when:
+    - app_common.users_create
+  tags:
+    - create_users
+
+- name: "Applications Common - RedHat Familly - Application Directories"
+  ansible.builtin.import_tasks: app-directories.yml
+  when:
+    - app_common.directories_create
   tags:
     - create_directories
 
-- name: "Applications Common - Redhat Familly - Create Application VGs"
-  ansible.builtin.import_tasks: app-create-vgs.yml
+- name: "Applications Common - Debian Familly - LVMs"
+  ansible.builtin.import_tasks: app-lvms.yml
   when:
     - ansible_virtualization_type != "lxc"
     - ansible_virtualization_type != "docker"
-    - application_lvms_create != true
+    - app_common.lvms_create
   tags:
-    - create_vgs
+    - app_common
+    - app_common_debian
+    - app_common_lvms

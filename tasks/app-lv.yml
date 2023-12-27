@@ -1,0 +1,76 @@
+---
+- name: "Applications Common - LVMs - VGs - VG - LV - Debug info : {{ lv.name }}"
+  ansible.builtin.debug:
+    msg:
+    vg: "{{ vg }}"
+    lv: "{{ lv }}"
+  when:
+    - app_common_role_debug
+  tags:
+    - app_common
+    - app_common_lvms
+    - app_common_vgs
+    - app_common_vg
+    - app_common_lvs
+    - app_common_lv
+    - app_common_debug
+
+- name: "Applications Common - LVMs - VGs - VG - LV : {{ lv.name }}"
+  community.general.lvol:
+    vg: "{{ vg.name }}"
+    lv: "{{ lv.name }}"
+    size: "{{ lv.size }}"
+  tags:
+    - app_common
+    - app_common_lvms
+    - app_common_vgs
+    - app_common_vg
+    - app_common_lvs
+    - app_common_lv
+
+- name: "Applications Common - LVMs - VGs - VG - LV -  Files Systems (FS) : {{ lv.name }}"
+  community.general.filesystem:
+    fstype: "{{ lv.fstype }}"
+    dev: /dev/mapper/{{ vg.name }}-{{ lv.name }}
+    resizefs: true
+  tags:
+    - app_common
+    - app_common_lvms
+    - app_common_vgs
+    - app_common_vg
+    - app_common_lvs
+    - app_common_lv
+    - app_common_fs
+
+- name: "Applications Common - LVMs - VGs - VG - FS Directory : {{ lv.name }}"
+  ansible.builtin.file:
+    path: "{{ lv.mount_point }}"
+    state: directory
+    recurse: false
+    follow: false
+    mode: '0644'
+  tags:
+    - app_common
+    - app_common_lvms
+    - app_common_vgs
+    - app_common_vg
+    - app_common_lvs
+    - app_common_lv
+    - app_common_directory
+
+- name: "Applications Common - LVMs - VGs - VG - FS Mount Point : {{ lv.name }}"  
+  ansible.posix.mount:
+    path: "{{ lv.mount_point }}"
+    src: "/dev/mapper/{{ vg.name }}-{{ lv.name }}"
+    fstype: "{{ lv.fstype }}"
+    opts: defaults
+    state: present
+    backup: true
+  tags:
+    - app_common
+    - app_common_lvms
+    - app_common_vgs
+    - app_common_vg
+    - app_common_lvs
+    - app_common_lv
+    - app_common_mount_point

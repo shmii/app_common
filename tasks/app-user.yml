@@ -1,0 +1,25 @@
+---
+- name: "Applications Common - OS User - Debug info : {{ user.login }}"
+  ansible.builtin.debug:
+    msg:
+      - user: "{{ user }}"
+  when:
+    - app_common_role_debug
+  tags:
+    - app_common
+    - app_common_users
+    - app_common_user
+    - app_common_debug
+
+- name: "Applications Common - OS User : {{ user.login }}"
+  ansible.builtin.user:
+    name: "{{ user.login }}"
+    shell: "{{ user.shell }}"
+    comment: "{{ user.comment }}"
+    home: "{{ user.home_directory }}"
+    groups: "{{ user.groups }}"
+    append: true
+  tags:
+    - app_common
+    - app_common_users
+    - app_common_user

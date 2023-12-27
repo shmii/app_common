@@ -4,8 +4,10 @@
     msg:
       - "ansible_os_family : {{ ansible_os_family }}"
       - "ansible_distribution : {{ ansible_distribution }}"
+      - "ansible_distribution_release : {{ ansible_distribution_release }}"
       - "ansible_distribution_version : {{ ansible_distribution_version }}"
-  when: app_common_role_debug == true
+      - "ansible_distribution_major_version : {{ ansible_distribution_major_version }}"
+  when: app_common_role_debug
   tags:
     - role_debug
 

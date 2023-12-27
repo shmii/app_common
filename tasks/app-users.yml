@@ -1,0 +1,24 @@
+---
+- name: "Applications Common - OS Users - Debug info"
+  ansible.builtin.debug:
+    msg:
+      - app_common.users: "{{ app_common.users }}"
+      - app_common.users_create: "{{ app_common.users_create }}"
+  when:
+    - app_common_role_debug
+  tags:
+    - app_common
+    - app_common_users
+    - app_common_debug
+
+- name: "Applications Common - OS Users"
+  ansible.builtin.include_tasks: app-user.yml
+  loop: "{{ app_common.users }}"
+  loop_control:
+    loop_var: user
+  when:
+    - app_common.users_create
+  tags:
+    - app_common
+    - app_common_users
+    - app_common_debug

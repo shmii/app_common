@@ -1,0 +1,23 @@
+---
+- name: "Applications Common - Directories - Debug info"
+  ansible.builtin.debug:
+    msg:
+      - app_common.directories: "{{ app_common.directories }}"
+      - app_common.directories_create: "{{ app_common.directories_create }}"
+  when:
+    - app_common_role_debug
+  tags:
+    - app_common
+    - app_common_directories
+    - app_common_debug
+
+- name: "Applications Common - Directories"
+  ansible.builtin.include_tasks: app-directory.yml
+  loop: "{{ app_common.directories }}"
+  loop_control:
+    loop_var: directory
+  when:
+    - app_common.directories_create
+  tags:
+    - app_common
+    - app_common_directories

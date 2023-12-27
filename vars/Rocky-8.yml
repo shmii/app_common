@@ -1,3 +1,1 @@
 ---
-__epel_repo_path: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm"
-__epel_repo_key: "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-8"

@@ -1,0 +1,23 @@
+---
+- name: "Applications Common - OS Groups - Debug info"
+  ansible.builtin.debug:
+    msg:
+      - app_common.groups: "{{ app_common.groups }}"
+      - app_common.groups_create: "{{ app_common.groups_create }}"
+  when:
+    - app_common_role_debug
+  tags:
+    - app_common
+    - app_common_groups
+    - app_common_debug
+
+- name: "Applications Common - OS Groups"
+  ansible.builtin.include_tasks: app-group.yml
+  loop: "{{ app_common.groups }}"
+  loop_control:
+    loop_var: group
+  when:
+    - app_common.groups_creates
+  tags:
+    - app_common
+    - app_common_groups

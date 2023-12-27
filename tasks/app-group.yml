@@ -1,0 +1,21 @@
+---
+- name: "Applications Common - OS Group - Debug info : {{ group.name }}"
+  ansible.builtin.debug:
+    msg:
+      - group: "{{ group }}"
+  when:
+    - app_common.groups_create
+  tags:
+    - app_common
+    - app_common_group
+    - app_common_groups
+    - app_common_debug
+
+- name: "Applications Common - OS Group : {{ group.name }}"
+  ansible.builtin.group:
+    name: "{{ group.name }}"
+    state: present
+  tags:
+    - app_common
+    - app_common_group
+    - app_common_groups

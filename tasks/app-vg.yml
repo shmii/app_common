@@ -1,0 +1,79 @@
+---
+- name: "Applications Common - LVMs - VGs - VG - Debug info : {{ vg.name }}"
+  ansible.builtin.debug:
+    msg:
+      - app_common.disks: "{{ app_common.vgs }}"
+      - vg: "{{ vg }}"
+  when:
+    - app_common_role_debug
+  tags:
+    - app_common
+    - app_common_lvms
+    - app_common_vgs
+    - app_common_vg
+    - app_common_debug
+
+- name: "Applications Common - LVMs - VGs - VG - Physical Volumes (pvs) - Create Empty Pvs list : {{ vg.name }}"
+  ansible.builtin.set_fact:
+    pvs: []
+  tags:
+    - app_common
+    - app_common_lvms
+    - app_common_vgs
+    - app_common_vg
+    - app_common_pvs
+
+- name: "Applications Common - LVMs - VGs - VG - Physical Volumes (pvs) - Fill Pvs list : {{ vg.name }}"
+  ansible.builtin.set_fact:
+    pvs: "{{ pvs + [disk.path] }}"
+  loop: "{{ disks }}"
+  loop_control:
+    loop_var: disk
+  when: vg.tag == disk.tag
+  tags:
+    - app_common
+    - app_common_lvms
+    - app_common_vgs
+    - app_common_vg
+    - app_common_pvs
+
+- name: "Applications Common - LVMs - VGs - VG - Physical Volumes (pvs)- Create VG - Debug info : {{ vg.name }}"
+  ansible.builtin.debug:
+    msg:
+      - vg.name: "{{ vg.name }}"
+      - vg.tag: "{{ vg.tag }}"
+      - pvs: "{{ pvs }}"
+
+  when:
+    - app_common_role_debug
+  tags:
+    - app_common
+    - app_common_lvms
+    - app_common_vgs
+    - app_common_vg
+    - app_common_pvs
+    - app_common_debug
+
+- name: "Applications Common - LVMs - VGs - VG - Physical Volumes (pvs) - Create VG : {{ vg.name }}"
+  community.general.lvg:
+    vg: "{{ vg.name }}"
+    pvs: "{{ pvs }}"
+  tags:
+    - app_common
+    - app_common_lvms
+    - app_common_vgs
+    - app_common_vg
+
+- name: "Applications Common - LVMs - VGs - VG - Logical Volumes (LVs) - Create LVs : {{ vg.name }}"
+  ansible.builtin.include_tasks: app-lv.yml
+  loop: "{{ vg.lvs }}"
+  loop_control:
+    loop_var: lv
+  when:
+    - app_common.vgs_create
+  tags:
+    - app_common
+    - app_common_lvms
+    - app_common_vgs
+    - app_common_vg
+    - app_common_lvs
