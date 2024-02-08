@@ -1,8 +1,0 @@
----
-- name: "Applications Common - Create VGs"
-  ansible.builtin.include_tasks: app-create-vg.yml
-  loop: "{{ application_vgs }}"
-  loop_control:
-    loop_var: vg
-  tags:
-    - create_vg

@@ -246,6 +246,19 @@ molecule <green>4.0.3</green> using python 3.10
       roles:
         - { role: shmii.app-common }
 ```
+# Test role with `molecule`
+
+## Pre-requists
+
+
+
+## Test role commande
+
+
+```bash
+RHEL_ACCOUNT_USER='<MyRedhatAccountUser>' RHEL_ACCOUNT_PASSWORD='<MyRedhatAccountPassword>'  molecule check
+```
+
 
 ## Warning and known bugs
 

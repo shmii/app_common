@@ -1,46 +1,36 @@
 ---
 # Loading OS correct vars
-- name: Loading OS correct vars
-  import_tasks: load_vars.yml
+- name: "Applications Common - Vars - Load"
+  ansible.builtin.import_tasks: load_vars.yml
   tags:
-    - load_vars
+    - app_common
+    - app_common_vars
+    - app_common_vars_load
 
-- name: "Print role Vars"
+- name: "Applications Common - Vars - Print"
   ansible.builtin.debug:
     msg:
-      - "app_common_role_debug : {{ app_common_role_debug }}"
-      - "application : {{ application }}"
-      - "application_users : {{ application_users }}"
-      - "application_lvms_create : {{ application_lvms_create }}"
+      - "app_common : {{ app_common | default([]) }}"
   when:
-    - app_common_role_debug == true
-    - application_lvms_create == false
+    - app_common_role_debug | default(false)
   tags:
-    - role_debug
+    - app_common
+    - app_common_vars
+    - app_common_vars_debug
 
-- name: "Print role Vars"
-  ansible.builtin.debug:
-    msg:
-      - "app_common_role_debug : {{ app_common_role_debug }}"
-      - "application : {{ application }}"
-      - "application_users : {{ application_users }}"
-      - "application_lvms_create : {{ application_lvms_create }}"
-      - "application_vgs : {{ application_vgs }}"
-  when:
-    - app_common_role_debug == true
-    - application_lvms_create == true
-  tags:
-    - role_debug
-
-# Run tasks.
-- name: Deploy common role on RHEL Familly
+# Run Tasks.
+- name: "Applications Common - Deploy common role on RHEL Familly"
   ansible.builtin.import_tasks: rhel-main.yml
   when: ( ansible_os_family == 'RedHat' or ansible_os_family == 'Rocky' )
   tags:
-    - os-commons-rhel
+    - app_common
+    - app_common_rhel
 
-- name: Deploy common role on Debian Familly
+- name: "Applications Common - Deploy common role on Debian Familly"
   ansible.builtin.import_tasks: debian-main.yml
   when: (ansible_facts['os_family'] == "Debian")
   tags:
-    - os-common-debian
+    - app_common
+    - app_common_debian
+
+...

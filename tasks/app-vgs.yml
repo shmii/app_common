@@ -1,0 +1,26 @@
+---
+- name: "Applications Common - LVMs - VGs - Debug info"
+  ansible.builtin.debug:
+    msg:
+      - app_common.vgs_create: "{{ app_common.lvm_create | default('') }}"
+      - app_common.vgs: "{{ app_common.vgs | default('') }}"
+  when:
+    - app_common_role_debug | default(false)
+  tags:
+    - app_common
+    - app_common_lvms
+    - app_common_vgs
+    - app_common_debug
+
+- name: "Applications Common - LVMs - VGs"
+  ansible.builtin.include_tasks: app-vg.yml
+  loop: "{{ app_common.vgs | default([], true) }}"
+  loop_control:
+    loop_var: vg
+  when:
+    - app_common.lvm_create | default(true)
+    - app_common.vgs
+  tags:
+    - app_common
+    - app_common_lvms
+    - app_common_vgs

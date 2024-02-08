@@ -4,79 +4,90 @@
   become: true
 
   roles:
-    - role: app-common
+    - role: app_common
 
   vars:
-    app_common_role_debug: true
 
     application:
-      - name: "My Test Application"
-        tag: APTEST
-        id: aptest
-        comment: "My TEST Application"
+      name: "My Test Application"
+      tag: APTEST
+      id: aptest
+      #comment: "My TEST Application"
 
-    application_groups_create: true
-    application_groups:
-      - name: groupe_one
-      - name: groupe_two
+    os_common_role_debug: true
+    os_common:
 
-    application_users:
-      - login: "{{ application[0].id }}"
-        comment: "{{ application[0].comment }}"
-        home_directory: "/app/{{ application[0].tag }}/application"
-        base_directory: "/app/{{ application[0].tag }}"
-        shell: "/usr/sbin/nologin"
-        group: "{{ application[0].id }}"
-        groups:
-          - groupe_one
-          - groupe_two
+    app_common_role_debug: true
+    app_common:
+      name: "{{ application.name }}"
+      tag: "{{ application.tag }}"
+      id: "{{ application.tag | lower }}"
+      comment: "{{ application.comment | default( \"Application - {{ application.name }}\" ) }}"
 
-    application_lvms_create: true
-    application_vgs:
-      - name: "vg_app"
-        tag: "APTEST"
-        lvs:
-          - name: "lv_app"
-            size: '10g'
-            fstype: 'xfs'
-            owner: "{{ application[0].id }}"
-            group: "{{ application[0].id }}"
-            mode: 755
-            mount_point: /app/{{ application[0].tag }}/application
-          - name: "lv_log"
-            size: '10g'
-            fstype: 'xfs'
-            owner: "{{ application[0].id }}"
-            group: "{{ application[0].id }}"
-            mode: 755
-            mount_point: /app/{{ application[0].tag }}/log
-          - name: "lv_data"
-            size: '10g'
-            fstype: 'xfs'
-            owner: "{{ application[0].id }}"
-            group: "{{ application[0].id }}"
-            mode: 755
-            mount_point: /app/{{ application[0].tag }}/data
+      groups_create: true
+      groups:
+        - name: groupe_one
+        - name: groupe_two
 
+      users_create: true
+      users:
+        - login: "{{ application.tag | lower }}"
+          comment: "{{ application.comment | default( \"Application - {{ application.name }}\" ) }}"
+          home_directory: "/app/{{ application.tag }}/application"
+          base_directory: "/app/{{ application.tag }}"
+          shell: "/usr/sbin/nologin"
+          system: true
+          group: "{{ application.tag | lower }}"
+          groups:
+            - groupe_one
+            - groupe_two
 
-    application_directories:
-      - path: "/app/{{ application[0].tag }}/application"
-        owner: "{{ application[0].id }}"
-        group: "{{ application[0].id }}"
-        mode: 755
-      - path: "/app/{{ application[0].tag }}/log"
-        owner: "{{ application[0].id }}"
-        group: "{{ application[0].id }}"
-        mode: 755
-      - path: "/app/{{ application[0].tag }}/data"
-        owner: "{{ application[0].id }}"
-        group: "{{ application[0].id }}"
-        mode: 755
+      lvms_create: true
+      vgs_create: true
+      vgs:
+        - name: "vg_app"
+          tag: "APTEST"
+          create: true
+          lvs_create: true
+          lvs:
+            - name: "lv_app"
+              size: '1g'
+              fstype: 'xfs'
+              mode: 755
+              mount_point: /app/{{ application.tag }}/application
+              create: true
+            - name: "lv_log"
+              size: '1g'
+              fstype: 'xfs'
+              mode: 755
+              mount_point: /app/{{ application.tag }}/log
+            - name: "lv_data"
+              size: '1g'
+              fstype: 'xfs'
+              mode: 755
+              mount_point: /app/{{ application.tag }}/data
 
-    disks:
-      - path: '/dev/disk/azure/scsi1/lun1'
-        tag: APTEST
-      - path: '/dev/sdc'
-        tag: APTEST
-      - path: '/dev/sde'
-        tag: AFFFF
+      #directories_create: true
+      directories:
+        - path: "/app/{{ application.tag }}/application"
+          owner: "{{ application.tag | lower }}"
+          group: "{{ application.tag | lower }}"
+          mode: 755
+        - path: "/app/{{ application.tag }}/log"
+          owner: "{{ application.tag | lower }}"
+          group: "{{ application.tag | lower }}"
+          mode: 755
+        - path: "/app/{{ application.tag }}/data"
+          owner: "{{ application.tag | lower }}"
+          group: "{{ application.tag | lower }}"
+          mode: 755
+
+      disks:
+        - path: '/dev/vdb'
+          tag: APTEST
+        - path: '/dev/vdc'
+          tag: APTEST
+        - path: '/dev/vde'
+          tag: AFFFF
+
+...

@@ -1,0 +1,91 @@
+---
+- name: "Applications Common - LVMs - VGs - VG - Debug info : {{ vg.name | default('') }}"
+  ansible.builtin.debug:
+    msg:
+      - app_common.disks: "{{ app_common.vgs | default('') }}"
+      - vg: "{{ vg | default('') }}"
+  when:
+    - app_common_role_debug | default(false)
+  tags:
+    - app_common
+    - app_common_lvms
+    - app_common_vgs
+    - app_common_vg
+    - app_common_debug
+
+- name: "Applications Common - LVMs - VGs - VG - Physical Volumes (pvs) - Create Empty Pvs list : {{ vg.name | default('') }}"
+  ansible.builtin.set_fact:
+    pvs: []
+  tags:
+    - app_common
+    - app_common_lvms
+    - app_common_vgs
+    - app_common_vg
+    - app_common_pvs
+
+- name: "Applications Common - LVMs - VGs - VG - Physical Volumes (pvs) - Fill Pvs list with disks: {{ vg.name | default('') }}"
+  ansible.builtin.set_fact:
+    pvs: "{{ pvs + [disk.path] }}"
+  loop: "{{ disks | default([], true) }}"
+  loop_control:
+    loop_var: disk
+  when: 
+    - vg
+    - disk
+    - vg.tag
+    - disk.tag
+    - disk.path
+    - vg.tag == disk.tag
+  tags:
+    - app_common
+    - app_common_lvms
+    - app_common_vgs
+    - app_common_vg
+    - app_common_pvs
+    - app_common_disks
+
+- name: "Applications Common - LVMs - VGs - VG - Debug info : {{ vg.name | default('') }}"
+  ansible.builtin.debug:
+    msg:
+      - vg.name: "{{ vg.name | default('') }}"
+      - vg.tag: "{{ vg.tag | default('') }}"
+      - pvs: "{{ pvs | default('') }}"
+
+  when:
+    - app_common_role_debug | default(false)
+  tags:
+    - app_common
+    - app_common_lvms
+    - app_common_vgs
+    - app_common_vg
+    - app_common_pvs
+    - app_common_debug
+
+- name: "Applications Common - LVMs - VGs - VG - Check & Apply : {{ vg.name | default('') }}"
+  community.general.lvg:
+    vg: "{{ vg.name }}"
+    pvs: "{{ pvs }}"
+  when:
+    - vgs_create | default(true)
+    - vg.create | default(true)
+    - vg.name
+    - pvs
+  tags:
+    - app_common
+    - app_common_lvms
+    - app_common_vgs
+    - app_common_vg
+
+- name: "Applications Common - LVMs - VGs - VG - LVs : {{ vg.name | default('') }}"
+  ansible.builtin.include_tasks: app-lv.yml
+  loop: "{{ vg.lvs }}"
+  loop_control:
+    loop_var: lv
+  when:
+    - app_common.lvs_create | default(true)
+  tags:
+    - app_common
+    - app_common_lvms
+    - app_common_vgs
+    - app_common_vg
+    - app_common_lvs
