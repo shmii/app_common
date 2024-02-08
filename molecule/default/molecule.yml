@@ -17,208 +17,213 @@ platforms:
   # default user : vagrant
   #         password : vagrant
 
-  - name: instance-vagrant-rhel7
-    box: generic/rhel7
-    interfaces:
-      - auto_config: true
-        network_name: private_network
-        type: static
-        ip: 192.168.10.10
-    groups:
-      - molecule_vm
+  # - name: instance-vagrant-rhel7
+  #   box: generic/rhel7
+  #   interfaces:
+  #     - auto_config: true
+  #       network_name: private_network
+  #       type: static
+  #       ip: 192.168.10.10
+  #   groups:
+  #     - molecule_vm
 
-  - name: instance-vagrant-rhel8
-    box: generic/rhel8
-    interfaces:
-      - auto_config: true
-        network_name: private_network
-        type: static
-        ip: 192.168.10.11
-    groups:
-      - molecule_vm
+  # - name: instance-vagrant-rhel8
+  #   box: generic/rhel8
+  #   interfaces:
+  #     - auto_config: true
+  #       network_name: private_network
+  #       type: static
+  #       ip: 192.168.10.11
+  #   groups:
+  #     - molecule_vm
   
-  - name: instance-vagrant-rhel9
-    box: generic/rhel9
-    interfaces:
-      - auto_config: true
-        network_name: private_network
-        type: static
-        ip: 192.168.10.12
-    groups:
-      - molecule_vm
+  # - name: instance-vagrant-rhel9
+  #   box: generic/rhel9
+  #   interfaces:
+  #     - auto_config: true
+  #       network_name: private_network
+  #       type: static
+  #       ip: 192.168.10.12
+  #   groups:
+  #     - molecule_vm
   
-  - name: instance-vagrant-alma8
-    box: generic/alma8
-    interfaces:
-      - auto_config: true
-        network_name: private_network
-        type: static
-        ip: 192.168.10.13
-    groups:
-      - molecule_vm
+  # - name: instance-vagrant-alma8
+  #   box: generic/alma8
+  #   interfaces:
+  #     - auto_config: true
+  #       network_name: private_network
+  #       type: static
+  #       ip: 192.168.10.13
+  #   groups:
+  #     - molecule_vm
   
-  - name: instance-vagrant-alma9
-    box: generic/alma9
-    interfaces:
-      - auto_config: true
-        network_name: private_network
-        type: static
-        ip: 192.168.10.14
-    groups:
-      - molecule_vm
+  # - name: instance-vagrant-alma9
+  #   box: generic/alma9
+  #   interfaces:
+  #     - auto_config: true
+  #       network_name: private_network
+  #       type: static
+  #       ip: 192.168.10.14
+  #   groups:
+  #     - molecule_vm
   
-  - name: instance-vagrant-rockylinux8
-    box: generic/rocky8
-    interfaces:
-      - auto_config: true
-        network_name: private_network
-        type: static
-        ip: 192.168.10.15
-    groups:
-      - molecule_vm
+  # - name: instance-vagrant-rockylinux8
+  #   box: generic/rocky8
+  #   interfaces:
+  #     - auto_config: true
+  #       network_name: private_network
+  #       type: static
+  #       ip: 192.168.10.15
+  #   groups:
+  #     - molecule_vm
   
-  - name: instance-vagrant-rockylinux9
-    box: generic/rocky9
-    interfaces:
-      - auto_config: true
-        network_name: private_network
-        type: static
-        ip: 192.168.10.16
-    groups:
-      - molecule_vm
+  # - name: instance-vagrant-rockylinux9
+  #   box: generic/rocky9
+  #   interfaces:
+  #     - auto_config: true
+  #       network_name: private_network
+  #       type: static
+  #       ip: 192.168.10.16
+  #   groups:
+  #     - molecule_vm
   
-  - name: instance-vagrant-amazonlinux2
-    box: jaredeh/amazonlinux2
-    interfaces:
-      - auto_config: true
-        network_name: private_network
-        type: static
-        ip: 192.168.10.17
-    groups:
-      - molecule_vm
+  # - name: instance-vagrant-amazonlinux2
+  #   box: jaredeh/amazonlinux2
+  #   interfaces:
+  #     - auto_config: true
+  #       network_name: private_network
+  #       type: static
+  #       ip: 192.168.10.17
+  #   groups:
+  #     - molecule_vm
 
-  - name: instance-vagrant-debian8
-    box: generic/debian8
-    interfaces:
-      - auto_config: true
-        network_name: private_network
-        type: static
-        ip: 192.168.10.20
-    groups:
-      - molecule_vm
+  # - name: instance-vagrant-debian8
+  #   box: generic/debian8
+  #   interfaces:
+  #     - auto_config: true
+  #       network_name: private_network
+  #       type: static
+  #       ip: 192.168.10.20
+  #   groups:
+  #     - molecule_vm
 
-  - name: instance-vagrant-debian9
-    box: generic/debian9
-    interfaces:
-      - auto_config: true
-        network_name: private_network
-        type: static
-        ip: 192.168.10.21
-    groups:
-      - molecule_vm
-  - name: instance-vagrant-debian10
-    box: generic/debian10
-    interfaces:
-      - auto_config: true
-        network_name: private_network
-        type: static
-        ip: 192.168.10.22
-    groups:
-      - molecule_vm
-  - name: instance-vagrant-debian11
-    box: generic/debian11
-    interfaces:
-      - auto_config: true
-        network_name: private_network
-        type: static
-        ip: 192.168.10.23
-    groups:
-      - molecule_vm
+  # - name: instance-vagrant-debian9
+  #   box: generic/debian9
+  #   interfaces:
+  #     - auto_config: true
+  #       network_name: private_network
+  #       type: static
+  #       ip: 192.168.10.21
+  #   groups:
+  #     - molecule_vm
+  # - name: instance-vagrant-debian10
+  #   box: generic/debian10
+  #   interfaces:
+  #     - auto_config: true
+  #       network_name: private_network
+  #       type: static
+  #       ip: 192.168.10.22
+  #   groups:
+  #     - molecule_vm
+  # - name: instance-vagrant-debian11
+  #   box: generic/debian11
+  #   interfaces:
+  #     - auto_config: true
+  #       network_name: private_network
+  #       type: static
+  #       ip: 192.168.10.23
+  #   groups:
+  #     - molecule_vm
   - name: instance-vagrant-debian12
-    box: generic/debian11
+    box: generic/debian12
     interfaces:
       - auto_config: true
         network_name: private_network
         type: static
-        ip: 192.168.10.23
+        ip: 192.168.10.24
+    provider_raw_config_args:
+      - "storage :file, :type => 'qcow2', :device => 'vdb', :size => '1G'"
     groups:
       - molecule_vm
 
-  - name: instance-vagrant-fedora29
-    box: generic/fedora29
-    interfaces:
-      - auto_config: true
-        network_name: private_network
-        type: static
-        ip: 192.168.10.30
-    groups:
-      - molecule_vm
-  - name: instance-vagrant-fedora30
-    box: generic/fedora30
-    interfaces:
-      - auto_config: true
-        network_name: private_network
-        type: static
-        ip: 192.168.10.31
-    groups:
-      - molecule_vm
-  - name: instance-vagrant-fedora31
-    box: generic/fedora31
-    interfaces:
-      - auto_config: true
-        network_name: private_network
-        type: static
-        ip: 192.168.10.32
-    groups:
-      - molecule_vm
-  - name: instance-vagrant-fedora32
-    box: generic/fedora32
-    interfaces:
-      - auto_config: true
-        network_name: private_network
-        type: static
-        ip: 192.168.10.33
-    groups:
-      - molecule_vm
-  - name: instance-vagrant-fedora33
-    box: generic/fedora33
-    interfaces:
-      - auto_config: true
-        network_name: private_network
-        type: static
-        ip: 192.168.10.34
-    groups:
-      - molecule_vm
-  - name: instance-vagrant-fedora34
-    box: generic/fedora34
-    interfaces:
-      - auto_config: true
-        network_name: private_network
-        type: static
-        ip: 192.168.10.35
-    groups:
-      - molecule_vm
-  - name: instance-vagrant-fedora35
-    box: generic/fedora35
-    interfaces:
-      - auto_config: true
-        network_name: private_network
-        type: static
-        ip: 192.168.10.36
-    groups:
-      - molecule_vm
-  - name: instance-vagrant-fedora36
-    box: generic/fedora36
-    interfaces:
-      - auto_config: true
-        network_name: private_network
-        type: static
-        ip: 192.168.10.37
-    groups:
-      - molecule_vm
-
+  # - name: instance-vagrant-fedora29
+  #   box: generic/fedora29
+  #   interfaces:
+  #     - auto_config: true
+  #       network_name: private_network
+  #       type: static
+  #       ip: 192.168.10.30
+  #   groups:
+  #     - molecule_vm
+  # - name: instance-vagrant-fedora30
+  #   box: generic/fedora30
+  #   interfaces:
+  #     - auto_config: true
+  #       network_name: private_network
+  #       type: static
+  #       ip: 192.168.10.31
+  #   groups:
+  #     - molecule_vm
+  # - name: instance-vagrant-fedora31
+  #   box: generic/fedora31
+  #   interfaces:
+  #     - auto_config: true
+  #       network_name: private_network
+  #       type: static
+  #       ip: 192.168.10.32
+  #   groups:
+  #     - molecule_vm
+  # - name: instance-vagrant-fedora32
+  #   box: generic/fedora32
+  #   interfaces:
+  #     - auto_config: true
+  #       network_name: private_network
+  #       type: static
+  #       ip: 192.168.10.33
+  #   groups:
+  #     - molecule_vm
+  # - name: instance-vagrant-fedora33
+  #   box: generic/fedora33
+  #   interfaces:
+  #     - auto_config: true
+  #       network_name: private_network
+  #       type: static
+  #       ip: 192.168.10.34
+  #   groups:
+  #     - molecule_vm
+  # - name: instance-vagrant-fedora34
+  #   box: generic/fedora34
+  #   interfaces:
+  #     - auto_config: true
+  #       network_name: private_network
+  #       type: static
+  #       ip: 192.168.10.35
+  #   groups:
+  #     - molecule_vm
+  # - name: instance-vagrant-fedora35
+  #   box: generic/fedora35
+  #   interfaces:
+  #     - auto_config: true
+  #       network_name: private_network
+  #       type: static
+  #       ip: 192.168.10.36
+  #   groups:
+  #     - molecule_vm
+  # - name: instance-vagrant-fedora36
+  #   box: generic/fedora36
+  #   interfaces:
+  #     - auto_config: true
+  #       network_name: private_network
+  #       type: static
+  #       ip: 192.168.10.37
+  #   groups:
+  #     - molecule_vm
 
 provisioner:
   name: ansible
-  playbooks:
-    converge: ${MOLECULE_PLAYBOOK:-converge.yml}
+  log: true
+  lint:
+    name: ansible-lint
+  env:
+    RHEL_ACCOUNT_USER: ${RHEL_ACCOUNT_USER:-"xxx"}
+    RHEL_ACCOUNT_PASSWORD: ${RHEL_ACCOUNT_PASSWORD:-"xxx"}

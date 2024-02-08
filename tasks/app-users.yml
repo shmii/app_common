@@ -1,24 +1,27 @@
 ---
-- name: "Applications Common - OS Users - Debug info"
+- name: "Applications Common - Users - Debug info"
   ansible.builtin.debug:
     msg:
-      - app_common.users: "{{ app_common.users }}"
-      - app_common.users_create: "{{ app_common.users_create }}"
+      - app_common.users: "{{ app_common.users | default('') }}"
+      - app_common.users_create: "{{ app_common.users_create | default('') }}"
   when:
-    - app_common_role_debug
+    - app_common_role_debug | default(false)
   tags:
     - app_common
     - app_common_users
     - app_common_debug
 
-- name: "Applications Common - OS Users"
+- name: "Applications Common - Users - Check"
   ansible.builtin.include_tasks: app-user.yml
-  loop: "{{ app_common.users }}"
+  loop: "{{ app_common.users | default([], true) }}"
   loop_control:
     loop_var: user
   when:
-    - app_common.users_create
+    - app_common.users_create  | default(false)
+    - app_common.groups
   tags:
     - app_common
     - app_common_users
     - app_common_debug
+
+...

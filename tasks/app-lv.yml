@@ -1,11 +1,13 @@
 ---
-- name: "Applications Common - LVMs - VGs - VG - LV - Debug info : {{ lv.name }}"
+- name: "Applications Common - LVMs - VGs - VG - LV - Debug info : {{ lv.name | default('') }}"
   ansible.builtin.debug:
     msg:
-    vg: "{{ vg }}"
-    lv: "{{ lv }}"
+      - vg: "{{ vg }}"
+      - lv: "{{ lv }}"
   when:
-    - app_common_role_debug
+    - app_common_role_debug | default(false)
+    - vg
+    - lv
   tags:
     - app_common
     - app_common_lvms
@@ -15,11 +17,15 @@
     - app_common_lv
     - app_common_debug
 
-- name: "Applications Common - LVMs - VGs - VG - LV : {{ lv.name }}"
+- name: "Applications Common - LVMs - VGs - VG - LV - Check LV  : {{ lv.name | default('') }}"
   community.general.lvol:
     vg: "{{ vg.name }}"
     lv: "{{ lv.name }}"
     size: "{{ lv.size }}"
+  when:
+    - vg.name
+    - lv.name
+    - lv.size
   tags:
     - app_common
     - app_common_lvms
@@ -28,11 +34,12 @@
     - app_common_lvs
     - app_common_lv
 
-- name: "Applications Common - LVMs - VGs - VG - LV -  Files Systems (FS) : {{ lv.name }}"
+- name: "Applications Common - LVMs - VGs - VG - LV - Check File System : {{ lv.name | default('') }}"
   community.general.filesystem:
     fstype: "{{ lv.fstype }}"
     dev: /dev/mapper/{{ vg.name }}-{{ lv.name }}
     resizefs: true
+    
   tags:
     - app_common
     - app_common_lvms
@@ -42,7 +49,7 @@
     - app_common_lv
     - app_common_fs
 
-- name: "Applications Common - LVMs - VGs - VG - FS Directory : {{ lv.name }}"
+- name: "Applications Common - LVMs - VGs - VG - LV - Check Mount Directory : {{ lv.name | default('') }}"
   ansible.builtin.file:
     path: "{{ lv.mount_point }}"
     state: directory
@@ -58,7 +65,7 @@
     - app_common_lv
     - app_common_directory
 
-- name: "Applications Common - LVMs - VGs - VG - FS Mount Point : {{ lv.name }}"  
+- name: "Applications Common - LVMs - VGs - VG - LV - Check Mount Point : {{ lv.name | default('') }}"
   ansible.posix.mount:
     path: "{{ lv.mount_point }}"
     src: "/dev/mapper/{{ vg.name }}-{{ lv.name }}"
@@ -74,3 +81,5 @@
     - app_common_lvs
     - app_common_lv
     - app_common_mount_point
+
+...

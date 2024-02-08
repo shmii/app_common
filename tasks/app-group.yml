@@ -1,21 +1,25 @@
 ---
-- name: "Applications Common - OS Group - Debug info : {{ group.name }}"
+- name: "Applications Common - Group - Debug info : {{ group.name | default('') }}"
   ansible.builtin.debug:
     msg:
-      - group: "{{ group }}"
+      - group: "{{ group | default('') }}"
   when:
-    - app_common.groups_create
+    - app_common_role_debug | default(false)
   tags:
     - app_common
-    - app_common_group
     - app_common_groups
+    - app_common_group
     - app_common_debug
 
-- name: "Applications Common - OS Group : {{ group.name }}"
+- name: "Applications Common - Group : {{ group.name | default('') }}"
   ansible.builtin.group:
     name: "{{ group.name }}"
-    state: present
+    gid: "{{ group.gid | default(omit) }}"
+    state: "{{ group.state | default('present') }}"
+    system: "{{ group.state | default(true) }}"
   tags:
     - app_common
-    - app_common_group
     - app_common_groups
+    - app_common_group
+
+...

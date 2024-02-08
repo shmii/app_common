@@ -5,39 +5,52 @@
       - "Application Name : {{ app_common.name }}"
       - "Application Tag : {{ app_common.tag }}"
       - "Application id : {{ app_common.id }}"
-      - "Application comment : {{ app_common.comment }}"
-  when: app_common_role_debug
+      - "Application comment : {{ app_common.comment | default('') }}"
+  when: app_common_role_debug | default( false )
   tags:
-    - role_debug
+    - app_common
+    - app_common_debug
+    - app_common_rhel
+    - app_common_rhel_debug
+
 
 - name: "Applications Common - RedHat Familly - Groups"
   ansible.builtin.import_tasks: app-groups.yml
-  when:
-    - app_common.groups_create
+  when: app_common.groups_create | default( false )
   tags:
-    - create_groups
+    - app_common
+    - app_common_groups
+    - app_common_rhel
+    - app_common_rhel_groups
 
 - name: "Applications Common - RedHat Familly - Users"
   ansible.builtin.import_tasks: app-users.yml
-  when:
-    - app_common.users_create
+  when: app_common.users_create | default( false )
   tags:
-    - create_users
+    - app_common
+    - app_common_users
+    - app_common_rhel
+    - app_common_rhel_users
 
 - name: "Applications Common - RedHat Familly - Application Directories"
   ansible.builtin.import_tasks: app-directories.yml
-  when:
-    - app_common.directories_create
+  when: app_common.directories_create | default( false )
   tags:
-    - create_directories
+    - app_common
+    - app_common_directories
+    - app_common_rhel
+    - app_common_rhel_directories
 
 - name: "Applications Common - Debian Familly - LVMs"
   ansible.builtin.import_tasks: app-lvms.yml
   when:
     - ansible_virtualization_type != "lxc"
     - ansible_virtualization_type != "docker"
-    - app_common.lvms_create
+    - app_common.lvms_create | default( false )
   tags:
     - app_common
-    - app_common_debian
     - app_common_lvms
+    - app_common_rhel
+    - app_common_rhel_lvms
+
+...

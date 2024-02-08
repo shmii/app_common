@@ -1,25 +1,37 @@
 ---
-- name: "Applications Common - OS User - Debug info : {{ user.login }}"
+- name: "Applications Common - OS User - Debug info : {{ user.login | default('') }}"
   ansible.builtin.debug:
     msg:
-      - user: "{{ user }}"
+      - user: "{{ user | default('') }}"
+
   when:
-    - app_common_role_debug
+    - app_common_role_debug | default(true)
   tags:
     - app_common
     - app_common_users
     - app_common_user
     - app_common_debug
 
-- name: "Applications Common - OS User : {{ user.login }}"
+- name: "Applications Common - OS User : {{ user.login | default('') }}"
   ansible.builtin.user:
     name: "{{ user.login }}"
-    shell: "{{ user.shell }}"
-    comment: "{{ user.comment }}"
-    home: "{{ user.home_directory }}"
-    groups: "{{ user.groups }}"
+    password: "{{ user.password | default(omit) }}"
+    update_password: "{{ user.update_password | default(omit) }}"
+    password_expire_max: "{{ user.password_expire_max | default(omit) }}"
+    password_expire_min: "{{ user.password_expire_min | default(omit) }}"
+    password_expire_warn: "{{ user.password_expire_warn | default(omit) }}"
+    password_lock: "{{ user.password_lock | default(omit) }}"
+    shell: "{{ user.shell | default(omit) }}"
+    comment: "{{ user.comment | default(omit) }}"
+    create_home: "{{ user.create_home | default(true) }}"
+    home: "{{ user.home_directory | default(omit) }}"
+    groups: "{{ user.groups | default(omit) }}"
+    system: "{{ user.system | default(omit) }}"
     append: true
   tags:
     - app_common
     - app_common_users
     - app_common_user
+
+...
+    

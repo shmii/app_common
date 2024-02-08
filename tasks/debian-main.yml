@@ -5,47 +5,52 @@
       - "app_common.name : {{ app_common.name }}"
       - "app_common.tag : {{ app_common.tag }}"
       - "app_common.id : {{ app_common.id }}"
-      - "app_common.comment : {{ app_common.comment }}"
-  when: app_common_role_debug
+      - "app_common.comment : {{ app_common.comment | default('') }}"
+  when: app_common_role_debug | default(false)
   tags:
     - app_common
-    - app_common_debian
     - app_common_debug
+    - app_common_debian
+    - app_common_debian_debug
+    
 
 - name: "Applications Common - Debian Familly - Groups"
   ansible.builtin.import_tasks: app-groups.yml
-  when:
-    - app_common.groups_create
+  when: app_common.groups_create | default(false)
   tags:
     - app_common
-    - app_common_debian
     - app_common_groups
+    - app_common_debian
+    - app_common_debian_groups
 
 - name: "Applications Common - Debian Familly - Users"
   ansible.builtin.import_tasks: app-users.yml
-  when:
-    - app_common.users_create
+  when: app_common.users_create | default(false)
   tags:
     - app_common
-    - app_common_debian
     - app_common_users
+    - app_common_debian
+    - app_common_debian_users
 
 - name: "Applications Common - Debian Familly - Directories"
   ansible.builtin.import_tasks: app-directories.yml
-  when:
-    - app_common.directories_create
+  when: app_common.directories_create | default(false)
   tags:
     - app_common
-    - app_common_debian
     - app_common_directories
+    - app_common_debian
+    - app_common_debian_directories
 
 - name: "Applications Common - Debian Familly - LVMs"
   ansible.builtin.import_tasks: app-lvms.yml
   when:
     - ansible_virtualization_type != "lxc"
     - ansible_virtualization_type != "docker"
-    - app_common.lvms_create
+    - app_common.lvms_create | default(false)
   tags:
     - app_common
-    - app_common_debian
     - app_common_lvms
+    - app_common_debian
+    - app_common_debian_lvms
+
+...
