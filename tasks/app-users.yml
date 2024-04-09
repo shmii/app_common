@@ -18,7 +18,7 @@
     loop_var: user
   when:
     - app_common.users_create  | default(false)
-    - app_common.groups
+    - app_common.users
   tags:
     - app_common
     - app_common_users
